@@ -11,7 +11,6 @@ const initialState = {
 export default searchImageReducer = (state = initialState, action) => {
     switch(action.type) {
         case GET_SEARCH_RESULT:
-        console.log("started the api call........");
             return{
                 ...state,
                 isFetching: true,
@@ -21,7 +20,6 @@ export default searchImageReducer = (state = initialState, action) => {
         case GET_SEARCH_RESULT_SUCCESS:
             let appendedResults = "";
             appendedResults = state.allSearchResults.concat(action.data.results);
-            console.log("Results are...",appendedResults);
             return{
                 ...state,
                 isFetching: false,
@@ -31,7 +29,6 @@ export default searchImageReducer = (state = initialState, action) => {
                 currentPage: action.data.nextPage
             }
         case GET_SEARCH_RESULT_ERROR:
-            console.log('error logged')
             return{
                 ...state,
                 error: true,
