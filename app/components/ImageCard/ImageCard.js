@@ -1,17 +1,41 @@
-import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import React, {Component} from 'react';
+import { View, Text } from 'react-native';
+// import SearchBar from 'react-native-searchbar';
 import styles from './styles';
 
 export default class Card extends Component {
   constructor(props){
     super(props);
     this.state = {
-        arrayOfCards: [0,1, 2, 3]
+        arrayOfRows: [0,1, 2, 3]
     }
   }
+
+  cardInject = () => {
+    return (
+      <View style={styles.columnContainer}>
+      </View>
+    );
+  }
+
+  rowInject = () => {
+    let cards = [0,1,2];
+    return (
+      <View style={styles.rowContainer}>
+        {cards.map(()=>
+          this.cardInject()
+        )}
+      </View>
+      );
+  }
+
   render() {
-    return this.props.data.map(item => {
-      console.log(item.url)
-    })
+    return (
+      <View style={styles.container}>
+        {this.state.arrayOfRows.map( () =>
+          this.rowInject()
+          )}
+      </View>
+    )
   }
 }

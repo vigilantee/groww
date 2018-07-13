@@ -34,5 +34,7 @@ export default searchImageReducer = (state = initialState, action) => {
                 error: true,
                 isFetching: false,
             }
+        default:
+            return state
     }
 }
