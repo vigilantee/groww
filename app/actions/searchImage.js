@@ -20,15 +20,16 @@ getSearchResultsDataFailure = () => {
 }
 
 
-export default getSearchResultsFromAPI = (user_token,apiUrl) => {
+export default getSearchResultsFromAPI = (apiUrl) => {
   return(dispatch) => {
+    console.log('aaya......')
     dispatch(getSearchResultsData())
     fetch(apiUrl, { 
       method: 'get', 
-      headers: {
-          'Authorization': user_token, 
-          'Cache-Control': 'no-cache'
-        }, 
+    //   headers: {
+    //       'Authorization': user_token, 
+    //       'Cache-Control': 'no-cache'
+    //     }, 
       }).then((response) =>{ if(response.status==200){return response.json()}else return []})
       .then((responseJson) => {
         dispatch(getSearchResultsDataValue(responseJson))

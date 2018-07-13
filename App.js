@@ -11,6 +11,14 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 // import SearchImage from './app/screens/SearchImage';
 import ImageCard from './app/components/ImageCard/ImageCard';
 
+import { createStore, applyMiddleware } from 'redux';
+import { Provider, connect } from 'react-redux';
+import axios from 'axios';
+import thunk from 'redux-thunk';
+import reducer from './app/reducers/index';
+
+const store = createStore(reducer, applyMiddleware(thunk));
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -22,7 +30,11 @@ const instructions = Platform.select({
 export default class App extends Component {
   render() {
     return (
-      <ImageCard />
+      <Provider store={store}>
+        <View style={styles.container}>
+          <ImageCard />
+        </View>
+      </Provider>
     );
   }
 }
@@ -30,9 +42,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ffffff',
   },
   welcome: {
     fontSize: 20,
