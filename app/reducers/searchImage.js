@@ -1,4 +1,4 @@
-import { GET_SEARCH_RESULT, GET_SEARCH_RESULT_SUCCESS, GET_SEARCH_RESULT_ERROR } from '../constants';
+import { GET_SEARCH_RESULT, GET_SEARCH_RESULT_SUCCESS, GET_SEARCH_RESULT_ERROR, EMPTY_STORE } from '../constants';
 
 const initialState = {
     isFetching: false,
@@ -6,7 +6,8 @@ const initialState = {
     searchResults: [],
     currentPage: 1,
     allSearchResults: [],
-    urlList: []
+    urlList: [],
+    query: 'coffee'
 }
 
 export default searchImageReducer = (state = initialState, action) => {
@@ -22,14 +23,14 @@ export default searchImageReducer = (state = initialState, action) => {
         case GET_SEARCH_RESULT_SUCCESS:
             let appendedResults = state.allSearchResults;
             let imageUrlList = [];
-            if(state.allSearchResults.length > 0)
+            if(state.allSearchResults.length > 0 && action.query == state.query)
                 Array.prototype.push.apply(appendedResults, action.data);
             else
                 appendedResults = action.data;
             appendedResults.map((obj)=>{
                 imageUrlList.push(obj.assets.preview.url)
-            // console.log('it is', imageUrlList);
             })
+            console.log('query is .....!!!!!!!!......',action.query)
             return{
                 ...state,
                 isFetching: false,
@@ -37,7 +38,8 @@ export default searchImageReducer = (state = initialState, action) => {
                 allSearchResults: appendedResults,
                 searchResults: [],
                 currentPage: action.data.nextPage,
-                urlList: imageUrlList
+                urlList: imageUrlList,
+                query: action.query
             }
         case GET_SEARCH_RESULT_ERROR:
             return{
@@ -45,7 +47,9 @@ export default searchImageReducer = (state = initialState, action) => {
                 error: true,
                 isFetching: false,
             }
+        case EMPTY_STORE:
+            return initialState;
         default:
-            return state
+            return state;
     }
 }

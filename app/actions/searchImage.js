@@ -6,10 +6,11 @@ getSearchResultsData = () => {
   }
 }
 
-getSearchResultsDataValue = (data) => {
+getSearchResultsDataValue = (data, query) => {
   return{
     type: GET_SEARCH_RESULT_SUCCESS,
-    data: data
+    data: data,
+    query: query
   }
 }
 
@@ -34,7 +35,7 @@ export default getSearchResultsFromAPI = (query, page) => {
       }).then((response) =>{ if(response.status==200){return response.json()}else return []})
       .then((responseJson) => {
         console.log('response is ....',responseJson.data)
-        dispatch(getSearchResultsDataValue(responseJson.data))
+        dispatch(getSearchResultsDataValue(responseJson.data, query))
       })
       .catch((error) => {
         dispatch(getSearchResultsDataFailure())

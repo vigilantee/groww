@@ -45,17 +45,6 @@ class Card extends Component {
     this.props.getSearchResultsFromAPI(this.state.query, this.state.page);
   };
 
-  // componentWillMount() {
-  //   this.props.getSearchResultsFromAPI(this.state.query, this.state.page);
-  // }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const data = this.state.data.concat(nextProps.data)
-  // this.setState(state => ({
-  //   data
-  // }));
-  // }
-
   onEndReached = () => {
     this.setState({
       page: this.state.page+1
@@ -64,14 +53,14 @@ class Card extends Component {
   })
   };
 
-  // onRefresh = () => {
-  //   this.setState({
-  //     data: randomUsers(10),
-  //   });
-  // }
+  _handleResults = (results) => {
+    this.setState({
+      query: results,
+      page: 1
+    },()=>this.props.getSearchResultsFromAPI(this.state.query, this.state.page));
+  }
 
   render() {
-    // console.log('woow ...'.this.props.searchImage);
     return (
       <View>
         <View style={styles.header}>
@@ -81,6 +70,7 @@ class Card extends Component {
               icon = {{type: 'material-community', color: '#86939e', name: 'share' }}
               focusOnLayout={true}
               placeholder="Search..."
+              handleSearch={this._handleResults}
             />
           <TouchableOpacity onPress={() => this.searchBar.show()}>
             <Icon name={"search"} size ={27} style = {styles.icon}/>
@@ -91,8 +81,6 @@ class Card extends Component {
           initialNumToRender={12}
           onEndReachedThreshold={1}
           onEndReached={this.onEndReached}
-          // refreshing={this.state.refreshing}
-          // onRefresh={this.onRefresh}
           renderItem={
             ({ item }) => {
               return (
@@ -106,13 +94,13 @@ class Card extends Component {
                   <Col size={30} style={styles.col}>
                     <Image
                       style={styles.image}
-                      source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                      source={{uri: item.assets.preview.url}}
                     />
                   </Col>
                   <Col size={30} style={styles.col}>
                     <Image
                       style={styles.image}
-                      source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                      source={{uri: item.assets.preview.url}}
                     />
                   </Col>
                 </Row>
@@ -126,7 +114,8 @@ class Card extends Component {
 
 const mapStateToProps = (state) => {
   return{
-    searchImage: state.searchImage.allSearchResults
+    searchImage: state.searchImage.allSearchResults,
+    urlList: state.searchImage.urlList
   };
  }
  
