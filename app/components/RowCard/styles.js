@@ -9,7 +9,7 @@ export default styles = StyleSheet.create({
         flexDirection: 'row',
         margin: 5,
         backgroundColor: '#00ff00',
-        height: 140
+        height: 150
     },
     columnContainer : {
         flexDirection: 'row',

@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import { View, TouchableOpacity, FlatList, Text } from 'react-native';
 import SearchBar from 'react-native-searchbar';
 import styles from './styles';
-// import { connect } from 'react-redux';
-// import { bindActionCreators } from "redux";
-// import getSearchResultsFromAPI from '../../actions/searchImage';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import getSearchResultsFromAPI from '../../actions/searchImage';
 import Icon from "react-native-vector-icons/Feather";
 import RowCard from '../RowCard/RowCard';
 
-export default class Card extends Component {
+class Card extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -76,16 +76,16 @@ export default class Card extends Component {
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return{
-//     searchImage: state.searchImage
-//   };
-//  }
+const mapStateToProps = (state) => {
+  return{
+    searchImage: state.searchImage
+  };
+ }
  
-//  const matchDispatchToProps = (dispatch) => {
-//   return bindActionCreators({
-//     getSearchResultsFromAPI: getSearchResultsFromAPI
-//   }, dispatch);
-//  }
+ const matchDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    getSearchResultsFromAPI: getSearchResultsFromAPI
+  }, dispatch);
+ }
  
-//  export default connect(mapStateToProps,matchDispatchToProps)(Card);
+ export default connect(mapStateToProps,matchDispatchToProps)(Card);
