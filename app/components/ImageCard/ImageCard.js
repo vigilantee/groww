@@ -1,76 +1,124 @@
-import React, {Component} from 'react';
-import { View, TouchableOpacity, FlatList, Text } from 'react-native';
+import React, { Component } from 'react';
+import {
+  FlatList,
+  Text,
+  ScrollView,
+  Image,
+  View,
+  TouchableOpacity
+} from 'react-native';
+import Icon from "react-native-vector-icons/Feather";
 import SearchBar from 'react-native-searchbar';
-import styles from './styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import getSearchResultsFromAPI from '../../actions/searchImage';
-import Icon from "react-native-vector-icons/Feather";
-import RowCard from '../RowCard/RowCard';
+
+import styles from './styles';
+import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
+// import { MaterialIcons } from '@expo/vector-icons';
+import faker from 'faker';
+
+let j = 0
+const randomUsers = (count = 10) => {
+  const arr = [];
+  for (let i = 0; i < count; i++) {
+    arr.push({
+      key: faker.random.uuid(),
+      date: faker.date.weekday(),
+      name: faker.name.firstName(),
+      job: faker.name.jobTitle(),
+      index: j++
+    })
+  }
+  return arr
+}
 
 class Card extends Component {
   constructor(props){
     super(props);
     this.state = {
-        arrayOfRows: [0,1, 2, 3, 4, 5, 6]
+      refreshing: false,
+      data: [],
+      query: 'coffee',
+      page: 1
     }
-  }
+    this.props.getSearchResultsFromAPI(this.state.query, this.state.page);
+  };
 
-  componentWillReceiveProps(nextProps) {
-    console.log('populated results are ......', nextProps.searchImage);
-  }
+  // componentWillMount() {
+  //   this.props.getSearchResultsFromAPI(this.state.query, this.state.page);
+  // }
 
-  cardInject = () => {
-    return (
-      <View style={styles.columnContainer}>
-      </View>
-    );
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const data = this.state.data.concat(nextProps.data)
+  // this.setState(state => ({
+  //   data
+  // }));
+  // }
 
-  rowInject = () => {
-    let cards = [0,1,2];
-    return (
-      <View style={styles.rowContainer}>
-        {cards.map(()=>
-          this.cardInject()
-        )}
-      </View>
-      );
-  }
+  onEndReached = () => {
+    this.setState({
+      page: this.state.page+1
+    },()=>{
+    this.props.getSearchResultsFromAPI(this.state.query, this.state.page);
+  })
+  };
 
-  renderImages = () => {
-    return (
-      <FlatList
-      data={this.state.arrayOfRows}
-      renderItem={(()=><RowCard/>)}
-      />
-    );
-  }
-
-  renderSearchBar = () => {
-    <TouchableOpacity onPress={() => this.searchBar.show()} >
-      <Icon name={"search"} size ={20} style = {styles.icon}/>
-    </TouchableOpacity>
-  }
+  // onRefresh = () => {
+  //   this.setState({
+  //     data: randomUsers(10),
+  //   });
+  // }
 
   render() {
+    // console.log('woow ...'.this.props.searchImage);
     return (
-      <View style={styles.container}>
+      <View>
         <View style={styles.header}>
           <SearchBar
-            ref={(ref) => this.searchBar = ref}
-            style={{ height: 30, width: 330 }}
-            icon = {{type: 'material-community', color: '#86939e', name: 'share' }}
-            focusOnLayout={true}
-            placeholder="Search..."
-          />
+              ref={(ref) => this.searchBar = ref}
+              style={{ height: 30, width: 330 }}
+              icon = {{type: 'material-community', color: '#86939e', name: 'share' }}
+              focusOnLayout={true}
+              placeholder="Search..."
+            />
           <TouchableOpacity onPress={() => this.searchBar.show()}>
             <Icon name={"search"} size ={27} style = {styles.icon}/>
           </TouchableOpacity>
         </View>
-        <View  style={styles.content}>
-          {this.renderImages()}
-        </View>
+        {this.props.searchImage.length > 5 && <FlatList
+          data={this.props.searchImage}
+          initialNumToRender={12}
+          onEndReachedThreshold={1}
+          onEndReached={this.onEndReached}
+          // refreshing={this.state.refreshing}
+          // onRefresh={this.onRefresh}
+          renderItem={
+            ({ item }) => {
+              return (
+                <Row key={item.key} style={styles.row}>
+                  <Col size={30} style={styles.col}>
+                    <Image
+                      style={styles.image}
+                      source={{uri: item.assets.preview.url}}
+                    />
+                  </Col>
+                  <Col size={30} style={styles.col}>
+                    <Image
+                      style={styles.image}
+                      source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    />
+                  </Col>
+                  <Col size={30} style={styles.col}>
+                    <Image
+                      style={styles.image}
+                      source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    />
+                  </Col>
+                </Row>
+              )
+            }}
+        />}
       </View>
     )
   }
@@ -78,7 +126,7 @@ class Card extends Component {
 
 const mapStateToProps = (state) => {
   return{
-    searchImage: state.searchImage
+    searchImage: state.searchImage.allSearchResults
   };
  }
  

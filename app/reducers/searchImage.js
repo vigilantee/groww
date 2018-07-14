@@ -18,8 +18,12 @@ export default searchImageReducer = (state = initialState, action) => {
                 searchResults: []
             }
         case GET_SEARCH_RESULT_SUCCESS:
-            let appendedResults = "";
-            appendedResults = state.allSearchResults.concat(action.data.results);
+            let appendedResults = state.allSearchResults;
+            if(state.allSearchResults.length > 0)
+                Array.prototype.push.apply(appendedResults, action.data);
+            else
+                appendedResults = action.data;
+            console.log('final answer',appendedResults);
             return{
                 ...state,
                 isFetching: false,

@@ -11,6 +11,17 @@ export default styles = StyleSheet.create({
         backgroundColor: '#000000',
         flex:1
     },
+    row : {
+        paddingTop: '6%',
+        paddingBottom: '6%',
+        paddingLeft:'6%',
+        backgroundColor: '#d3d3d3',
+        height: 160
+    },
+    col : {
+        marginRight: 10,
+        marginBottom: 10
+    },
     columnContainer : {
         flexDirection: 'row',
         margin: 10,
@@ -29,8 +40,8 @@ export default styles = StyleSheet.create({
       backgroundColor: '#00ff00'
   },
   image : {
-    width : '50px',
-    height: '50px'
+    width : 116,
+    height: 140
   },
   icon : {
     color: '#000000',

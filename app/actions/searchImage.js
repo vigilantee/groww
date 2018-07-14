@@ -1,4 +1,4 @@
-import { GET_SEARCH_RESULT, GET_SEARCH_RESULT_SUCCESS, GET_SEARCH_RESULT_ERROR, IMAGE_URL_PREFIX, IMAGE_URL_SUFFIX } from '../constants';
+import { GET_SEARCH_RESULT, GET_SEARCH_RESULT_SUCCESS, GET_SEARCH_RESULT_ERROR, IMAGE_URL_PREFIX, IMAGE_URL_SUFFIX, AUTH_TOKEN } from '../constants';
 
 getSearchResultsData = () => {
   return{
@@ -20,9 +20,10 @@ getSearchResultsDataFailure = () => {
 }
 
 
-export default getSearchResultsFromAPI = (query) => {
-    apiUrl = `${IMAGE_URL_PREFIX}${query}${IMAGE_URL_SUFFIX}`
-    user_token = 'Basic MzM1MmFlZmZiZDI0ZDMzZjg4NTk6MDk3ZjgzMjI0MmFkMzcxZDlmMDEyNzcwY2FiZGIxZTZjZWJjNDMzYQ=='
+export default getSearchResultsFromAPI = (query, page) => {
+    console.log('aaya .....!!!!!!!!!!')
+    apiUrl = `${IMAGE_URL_PREFIX}${query}${IMAGE_URL_SUFFIX}${page}`
+    user_token = AUTH_TOKEN
   return(dispatch) => {
     dispatch(getSearchResultsData())
     fetch(apiUrl, { 
@@ -32,8 +33,8 @@ export default getSearchResultsFromAPI = (query) => {
         }, 
       }).then((response) =>{ if(response.status==200){return response.json()}else return []})
       .then((responseJson) => {
-        console.log('response is ....',responseJson)
-        dispatch(getSearchResultsDataValue(responseJson))
+        console.log('response is ....',responseJson.data)
+        dispatch(getSearchResultsDataValue(responseJson.data))
       })
       .catch((error) => {
         dispatch(getSearchResultsDataFailure())
