@@ -5,7 +5,8 @@ const initialState = {
     error: false,
     searchResults: [],
     currentPage: 1,
-    allSearchResults: []
+    allSearchResults: [],
+    urlList: []
 }
 
 export default searchImageReducer = (state = initialState, action) => {
@@ -15,22 +16,28 @@ export default searchImageReducer = (state = initialState, action) => {
                 ...state,
                 isFetching: true,
                 error: false,
-                searchResults: []
+                searchResults: [],
+                urlList: []
             }
         case GET_SEARCH_RESULT_SUCCESS:
             let appendedResults = state.allSearchResults;
+            let imageUrlList = [];
             if(state.allSearchResults.length > 0)
                 Array.prototype.push.apply(appendedResults, action.data);
             else
                 appendedResults = action.data;
-            console.log('final answer',appendedResults);
+            appendedResults.map((obj)=>{
+                imageUrlList.push(obj.assets.preview.url)
+            // console.log('it is', imageUrlList);
+            })
             return{
                 ...state,
                 isFetching: false,
                 error: false,
                 allSearchResults: appendedResults,
                 searchResults: [],
-                currentPage: action.data.nextPage
+                currentPage: action.data.nextPage,
+                urlList: imageUrlList
             }
         case GET_SEARCH_RESULT_ERROR:
             return{
