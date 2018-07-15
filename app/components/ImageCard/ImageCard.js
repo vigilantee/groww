@@ -60,6 +60,29 @@ class Card extends Component {
     },()=>this.props.getSearchResultsFromAPI(this.state.query, this.state.page));
   }
 
+  colInjector = (url) => {
+    return (
+      <Col size={30} style={styles.col}>
+        <Image
+          style={styles.image}
+          source={{uri: url}}
+        />
+      </Col>
+    )
+  }
+
+  rowInjector = (item,index) => {
+    let url = item.assets.preview.url;
+    if(index%3 != 0)
+      return;
+    return(<Row key={item.key} style={styles.row}>
+      {this.colInjector(this.props.urlList[index])}
+      {this.colInjector(this.props.urlList[index+1])}
+      {this.colInjector(this.props.urlList[index+2])}
+    </Row>
+    )
+  }
+
   render() {
     return (
       <View>
@@ -82,29 +105,9 @@ class Card extends Component {
           onEndReachedThreshold={1}
           onEndReached={this.onEndReached}
           renderItem={
-            ({ item }) => {
-              return (
-                <Row key={item.key} style={styles.row}>
-                  <Col size={30} style={styles.col}>
-                    <Image
-                      style={styles.image}
-                      source={{uri: item.assets.preview.url}}
-                    />
-                  </Col>
-                  <Col size={30} style={styles.col}>
-                    <Image
-                      style={styles.image}
-                      source={{uri: item.assets.preview.url}}
-                    />
-                  </Col>
-                  <Col size={30} style={styles.col}>
-                    <Image
-                      style={styles.image}
-                      source={{uri: item.assets.preview.url}}
-                    />
-                  </Col>
-                </Row>
-              )
+            ({ item, index }) => {
+              console.log('index is .....', index);
+              return(this.rowInjector(item,index))
             }}
         />}
       </View>
