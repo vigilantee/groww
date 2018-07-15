@@ -106,7 +106,6 @@ class Card extends Component {
           onEndReached={this.onEndReached}
           renderItem={
             ({ item, index }) => {
-              console.log('index is .....', index);
               return(this.rowInjector(item,index))
             }}
         />}

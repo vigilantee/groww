@@ -30,7 +30,6 @@ export default searchImageReducer = (state = initialState, action) => {
             appendedResults.map((obj)=>{
                 imageUrlList.push(obj.assets.preview.url)
             })
-            console.log('query is .....!!!!!!!!......',action.query)
             return{
                 ...state,
                 isFetching: false,

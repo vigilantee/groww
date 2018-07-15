@@ -22,7 +22,6 @@ getSearchResultsDataFailure = () => {
 
 
 export default getSearchResultsFromAPI = (query, page) => {
-    console.log('aaya .....!!!!!!!!!!')
     apiUrl = `${IMAGE_URL_PREFIX}${query}${IMAGE_URL_SUFFIX}${page}`
     user_token = AUTH_TOKEN
   return(dispatch) => {
@@ -34,7 +33,6 @@ export default getSearchResultsFromAPI = (query, page) => {
         }, 
       }).then((response) =>{ if(response.status==200){return response.json()}else return []})
       .then((responseJson) => {
-        console.log('response is ....',responseJson.data)
         dispatch(getSearchResultsDataValue(responseJson.data, query))
       })
       .catch((error) => {
