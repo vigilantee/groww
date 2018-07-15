@@ -39,7 +39,7 @@ class Card extends Component {
     this.state = {
       refreshing: false,
       data: [],
-      query: 'coffee',
+      query: '',
       page: 1
     }
     this.props.getSearchResultsFromAPI(this.state.query, this.state.page);
