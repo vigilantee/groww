@@ -42,7 +42,7 @@ const searchImageReducer = (state = initialState, action) => {
       };
     case GET_PROFILE_RESULT_SUCCESS:
       if (state.profileSearchResult.length > 0
-        && action.username === appendedProfileSearchResult[0].user.username) {
+        && action.username === state.profileSearchResult[0].user.username) {
         Array.prototype.push.apply(appendedProfileSearchResult, action.data);
       } else {
         appendedProfileSearchResult = action.data;
