@@ -86,7 +86,11 @@ class ImageDetails extends Component {
     const { searchImage } = this.props;
     return (
       <View style={styles.container}>
-        {searchImage[0] && <View style={styles.header}><Text style={styles.headerText}>{searchImage[0].user.name}</Text></View>}
+        {searchImage[0] && (
+        <View style={styles.header}>
+          <Text style={styles.headerText}>{searchImage[0].user.name}</Text>
+        </View>
+        )}
         {searchImage.length > 5
           && (
             <FlatList
