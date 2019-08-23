@@ -6,38 +6,24 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, SafeAreaView, View} from 'react-native';
-// import SearchImage from './app/screens/SearchImage';
-import ImageCard from './app/components/ImageCard/ImageCard';
+import React from 'react';
+import { StyleSheet, SafeAreaView } from 'react-native';
 
 import { createStore, applyMiddleware } from 'redux';
-import { Provider, connect } from 'react-redux';
-import axios from 'axios';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import ImageCard from './app/components/ImageCard/ImageCard';
 import reducer from './app/reducers/index';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-// type Props = {};
-export default class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <SafeAreaView style={styles.container}>
-          <ImageCard />
-        </SafeAreaView>
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <SafeAreaView style={styles.container}>
+      <ImageCard />
+    </SafeAreaView>
+  </Provider>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -55,3 +41,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+
+export default App;

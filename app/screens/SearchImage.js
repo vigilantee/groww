@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, TouchableHighlight, Platform } from 'react-native';
+import { View } from 'react-native';
 import SearchBar from 'react-native-searchbar';
 
 export default class SearchImage extends Component {
@@ -7,10 +7,11 @@ export default class SearchImage extends Component {
     return (
       <View>
         <SearchBar
+          // eslint-disable-next-line no-return-assign
           ref={(ref) => this.searchBar = ref}
           showOnLoad
         />
       </View>
-    )
+    );
   }
 }
