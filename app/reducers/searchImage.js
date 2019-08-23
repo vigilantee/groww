@@ -11,9 +11,9 @@ const initialState = {
 }
 
 export default searchImageReducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case GET_SEARCH_RESULT:
-            return{
+            return {
                 ...state,
                 isFetching: true,
                 error: false,
@@ -23,14 +23,14 @@ export default searchImageReducer = (state = initialState, action) => {
         case GET_SEARCH_RESULT_SUCCESS:
             let appendedResults = state.allSearchResults;
             let imageUrlList = [];
-            if(state.allSearchResults.length > 0 && action.query == state.query)
+            if (state.allSearchResults.length > 0 && action.query == state.query)
                 Array.prototype.push.apply(appendedResults, action.data);
             else
                 appendedResults = action.data;
-            appendedResults.map((obj)=>{
-                imageUrlList.push(obj.assets.preview.url)
+            appendedResults.map((obj) => {
+                imageUrlList.push(obj.urls.small)
             })
-            return{
+            return {
                 ...state,
                 isFetching: false,
                 error: false,
@@ -41,7 +41,7 @@ export default searchImageReducer = (state = initialState, action) => {
                 query: action.query
             }
         case GET_SEARCH_RESULT_ERROR:
-            return{
+            return {
                 ...state,
                 error: true,
                 isFetching: false,

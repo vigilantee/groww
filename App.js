@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, SafeAreaView, View} from 'react-native';
 // import SearchImage from './app/screens/SearchImage';
 import ImageCard from './app/components/ImageCard/ImageCard';
 
@@ -31,9 +31,9 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <ImageCard />
-        </View>
+        </SafeAreaView>
       </Provider>
     );
   }
