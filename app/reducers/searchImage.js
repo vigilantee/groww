@@ -41,7 +41,8 @@ const searchImageReducer = (state = initialState, action) => {
         query: action.query
       };
     case GET_PROFILE_RESULT_SUCCESS:
-      if (state.profileSearchResult.length > 0 && action.username === state.username) {
+      if (state.profileSearchResult.length > 0
+        && action.username === appendedProfileSearchResult[0].user.username) {
         Array.prototype.push.apply(appendedProfileSearchResult, action.data);
       } else {
         appendedProfileSearchResult = action.data;
@@ -51,7 +52,6 @@ const searchImageReducer = (state = initialState, action) => {
         isFetching: false,
         error: false,
         profileSearchResult: appendedProfileSearchResult,
-        allSearchResults: appendedProfileSearchResult,
         searchResults: [],
         currentPage: action.data.nextPage,
         username: action.username

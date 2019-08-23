@@ -116,7 +116,7 @@ class ImageDetails extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  searchImage: state.searchImage.allSearchResults
+  searchImage: state.searchImage.profileSearchResult
 });
 
 const matchDispatchToProps = (dispatch) => bindActionCreators({
