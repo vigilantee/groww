@@ -10,17 +10,19 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
   },
+  header: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 0.07
+  },
+  headerText: {
+    fontSize: 25,
+  },
   likes: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around'
-  },
-  header: {
-    height: 60,
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    justifyContent: 'flex-end',
-    alignItems: 'center'
   },
   details: {
     width: 116,

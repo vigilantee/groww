@@ -8,47 +8,34 @@ import {
 } from 'react-native';
 // eslint-disable-next-line import/no-unresolved
 import Icon from 'react-native-vector-icons/Feather';
-import SearchBar from 'react-native-searchbar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getSearchResultsFromAPI, getImagesFromProfile } from '../../actions/searchImage';
+import { getImagesFromProfile } from '../../actions/searchImage';
 import styles from './styles';
 
 
-class Card extends Component {
+class ImageDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: 'coffee',
       page: 1,
       longPressedIndex: 1,
-      // username: 'nate_dumlao',
+      username: 'nate_dumlao'
     };
-    const { query, page } = this.state;
-    const { getSearchResults } = this.props;
-    // getProfileImages(username, page);
-    getSearchResults(query, page);
+    const { page, username } = this.state;
+    const { getProfileImages } = this.props;
+    getProfileImages(username, page);
   }
 
   onEndReached = () => {
-    const { query, page } = this.state;
-    const { getSearchResults } = this.props;
+    const { username, page } = this.state;
+    const { getProfileImages } = this.props;
     this.setState({
       page: page + 1
     }, () => {
-      getSearchResults(query, page);
+      getProfileImages(username, page);
     });
   };
-
-  handleResults = (results) => {
-    const { query, page } = this.state;
-    const { getSearchResults } = this.props;
-
-    this.setState({
-      query: results,
-      page: 1
-    }, () => getSearchResults(query, page));
-  }
 
   longPress = (i) => {
     this.setState({
@@ -99,34 +86,21 @@ class Card extends Component {
     const { searchImage } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <SearchBar
-            // eslint-disable-next-line no-return-assign
-            ref={(ref) => this.searchBar = ref}
-            style={{ height: 30, width: 330 }}
-            icon={{ type: 'material-community', color: '#86939e', name: 'share' }}
-            focusOnLayout
-            placeholder="Search..."
-            handleSearch={this.handleResults}
-          />
-          <TouchableOpacity onPress={() => this.searchBar.show()}>
-            <Icon name="search" size={27} style={styles.icon} />
-          </TouchableOpacity>
-        </View>
+        {searchImage[0] && <View style={styles.header}><Text style={styles.headerText}>{searchImage[0].user.name}</Text></View>}
         {searchImage.length > 5
-        && (
-          <FlatList
-            data={searchImage}
-            initialNumToRender={12}
-            numColumns={3}
-            onEndReachedThreshold={1}
-            onEndReached={this.onEndReached}
-            renderItem={
-              ({ item, index }) => this.renderImage(item, index)
-            }
-            extraData={this.state}
-          />
-        )}
+          && (
+            <FlatList
+              data={searchImage}
+              initialNumToRender={12}
+              numColumns={3}
+              onEndReachedThreshold={1}
+              onEndReached={this.onEndReached}
+              renderItem={
+                ({ item, index }) => this.renderImage(item, index)
+              }
+              extraData={this.state}
+            />
+          )}
       </View>
     );
   }
@@ -137,8 +111,7 @@ const mapStateToProps = (state) => ({
 });
 
 const matchDispatchToProps = (dispatch) => bindActionCreators({
-  getSearchResults: getSearchResultsFromAPI,
   getProfileImages: getImagesFromProfile
 }, dispatch);
 
-export default connect(mapStateToProps, matchDispatchToProps)(Card);
+export default connect(mapStateToProps, matchDispatchToProps)(ImageDetails);

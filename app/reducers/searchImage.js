@@ -1,5 +1,6 @@
 import {
-  GET_SEARCH_RESULT, GET_SEARCH_RESULT_SUCCESS, GET_SEARCH_RESULT_ERROR, EMPTY_STORE
+  GET_SEARCH_RESULT, GET_SEARCH_RESULT_SUCCESS, GET_SEARCH_RESULT_ERROR,
+  EMPTY_STORE, GET_PROFILE_RESULT_SUCCESS
 } from '../constants';
 
 const initialState = {
@@ -8,21 +9,21 @@ const initialState = {
   searchResults: [],
   currentPage: 1,
   allSearchResults: [],
-  urlList: [],
-  query: 'coffee'
+  query: 'coffee',
+  profileSearchResult: [],
+  username: ''
 };
 
 const searchImageReducer = (state = initialState, action) => {
   let appendedResults = state.allSearchResults;
-  const imageUrlList = [];
+  let appendedProfileSearchResult = state.allSearchResults;
   switch (action.type) {
     case GET_SEARCH_RESULT:
       return {
         ...state,
         isFetching: true,
         error: false,
-        searchResults: [],
-        urlList: []
+        searchResults: []
       };
     case GET_SEARCH_RESULT_SUCCESS:
       if (state.allSearchResults.length > 0 && action.query === state.query) {
@@ -30,7 +31,6 @@ const searchImageReducer = (state = initialState, action) => {
       } else {
         appendedResults = action.data;
       }
-      appendedResults.map((obj) => imageUrlList.push(obj.urls.small));
       return {
         ...state,
         isFetching: false,
@@ -38,8 +38,23 @@ const searchImageReducer = (state = initialState, action) => {
         allSearchResults: appendedResults,
         searchResults: [],
         currentPage: action.data.nextPage,
-        urlList: imageUrlList,
         query: action.query
+      };
+    case GET_PROFILE_RESULT_SUCCESS:
+      if (state.profileSearchResult.length > 0 && action.username === state.username) {
+        Array.prototype.push.apply(appendedProfileSearchResult, action.data);
+      } else {
+        appendedProfileSearchResult = action.data;
+      }
+      return {
+        ...state,
+        isFetching: false,
+        error: false,
+        profileSearchResult: appendedProfileSearchResult,
+        allSearchResults: appendedProfileSearchResult,
+        searchResults: [],
+        currentPage: action.data.nextPage,
+        username: action.username
       };
     case GET_SEARCH_RESULT_ERROR:
       return {
