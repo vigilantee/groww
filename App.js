@@ -4,9 +4,11 @@ import ImageDetails from './app/components/ImageDetails/ImageDetails';
 
 const MainNavigator = createStackNavigator({
   Home: { screen: ImageCard },
-  Profile: { screen: ImageCard },
+  Profile: { screen: ImageDetails },
+}, {
+  headerMode: 'none',
 });
 
 const App = createAppContainer(MainNavigator);
 
-export default ImageDetails;
+export default App;

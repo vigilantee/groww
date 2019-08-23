@@ -20,16 +20,21 @@ class ImageDetails extends Component {
     this.state = {
       page: 1,
       longPressedIndex: 1,
-      username: 'nate_dumlao'
     };
-    const { page, username } = this.state;
-    const { getProfileImages } = this.props;
+    const { page } = this.state;
+    const { getProfileImages, navigation } = this.props;
+    const { state } = navigation;
+    const { params } = state;
+    const { username } = params;
     getProfileImages(username, page);
   }
 
   onEndReached = () => {
-    const { username, page } = this.state;
-    const { getProfileImages } = this.props;
+    const { page } = this.state;
+    const { getProfileImages, navigation } = this.props;
+    const { state } = navigation;
+    const { params } = state;
+    const { username } = params;
     this.setState({
       page: page + 1
     }, () => {

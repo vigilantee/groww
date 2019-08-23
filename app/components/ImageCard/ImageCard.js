@@ -21,8 +21,7 @@ class Card extends Component {
     this.state = {
       query: 'coffee',
       page: 1,
-      longPressedIndex: 1,
-      // username: 'nate_dumlao',
+      longPressedIndex: 1
     };
     const { query, page } = this.state;
     const { getSearchResults } = this.props;
@@ -54,11 +53,11 @@ class Card extends Component {
     this.setState({
       longPressedIndex: i
     });
-    console.log('long pressed', i);
   }
 
   handlePress = (i) => {
-    console.log('pressed', i);
+    const { searchImage, navigation } = this.props;
+    navigation.navigate('Profile', { username: searchImage[i].user.username });
   }
 
   renderImage = (item, index) => {
@@ -114,19 +113,19 @@ class Card extends Component {
           </TouchableOpacity>
         </View>
         {searchImage.length > 5
-        && (
-          <FlatList
-            data={searchImage}
-            initialNumToRender={12}
-            numColumns={3}
-            onEndReachedThreshold={1}
-            onEndReached={this.onEndReached}
-            renderItem={
-              ({ item, index }) => this.renderImage(item, index)
-            }
-            extraData={this.state}
-          />
-        )}
+          && (
+            <FlatList
+              data={searchImage}
+              initialNumToRender={12}
+              numColumns={3}
+              onEndReachedThreshold={1}
+              onEndReached={this.onEndReached}
+              renderItem={
+                ({ item, index }) => this.renderImage(item, index)
+              }
+              extraData={this.state}
+            />
+          )}
       </View>
     );
   }
