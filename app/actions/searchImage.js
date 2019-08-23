@@ -1,5 +1,7 @@
 import Unsplash from 'unsplash-js/native';
-import { GET_SEARCH_RESULT, GET_SEARCH_RESULT_SUCCESS, GET_SEARCH_RESULT_ERROR, APP_ACCESS_KEY, APP_SECRET } from '../constants';
+import {
+  GET_SEARCH_RESULT, GET_SEARCH_RESULT_SUCCESS, GET_SEARCH_RESULT_ERROR, APP_ACCESS_KEY, APP_SECRET
+} from '../constants';
 
 const getSearchResultsData = () => ({
   type: GET_SEARCH_RESULT

@@ -1,16 +1,14 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  row: {
-    paddingTop: '6%',
-    paddingBottom: '6%',
-    paddingLeft: '6%',
-    backgroundColor: '#d3d3d3',
-    height: 160
-  },
   col: {
-    marginRight: 10,
-    marginBottom: 10
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'row'
+  },
+  container: {
+    display: 'flex',
+    flex: 1,
   },
   header: {
     height: 60,

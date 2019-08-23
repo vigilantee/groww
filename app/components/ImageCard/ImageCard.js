@@ -10,7 +10,6 @@ import Icon from 'react-native-vector-icons/Feather';
 import SearchBar from 'react-native-searchbar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Row, Column as Col } from 'react-native-responsive-grid';
 import getSearchResultsFromAPI from '../../actions/searchImage';
 
 import styles from './styles';
@@ -48,33 +47,22 @@ class Card extends Component {
     }, () => getSearchResults(query, page));
   }
 
-  colInjector = (url) => (
-    <Col size={30} style={styles.col}>
-      <Image
-        style={styles.image}
-        source={{ uri: url }}
-      />
-    </Col>
-  )
-
-  rowInjector = (item, index) => {
-    if (index % 3 === 0) {
-      const { urlList } = this.props;
-      return (
-        <Row key={item.key} style={styles.row}>
-          {this.colInjector(urlList[index])}
-          {this.colInjector(urlList[index + 1])}
-          {this.colInjector(urlList[index + 2])}
-        </Row>
-      );
-    }
-    return null;
+  renderImage = (item, index) => {
+    const { searchImage } = this.props;
+    return (
+      <View style={styles.col}>
+        <Image
+          style={styles.image}
+          source={{ uri: searchImage[index].urls.small }}
+        />
+      </View>
+    );
   }
 
   render() {
     const { searchImage } = this.props;
     return (
-      <View>
+      <View style={styles.container}>
         <View style={styles.header}>
           <SearchBar
             // eslint-disable-next-line no-return-assign
@@ -93,10 +81,11 @@ class Card extends Component {
           <FlatList
             data={searchImage}
             initialNumToRender={12}
+            numColumns={3}
             onEndReachedThreshold={1}
             onEndReached={this.onEndReached}
             renderItem={
-              ({ item, index }) => this.rowInjector(item, index)
+              ({ item, index }) => this.renderImage(item, index)
             }
           />
         )}
@@ -106,8 +95,7 @@ class Card extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  searchImage: state.searchImage.allSearchResults,
-  urlList: state.searchImage.urlList
+  searchImage: state.searchImage.allSearchResults
 });
 
 const matchDispatchToProps = (dispatch) => bindActionCreators({
