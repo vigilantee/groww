@@ -6,7 +6,6 @@ import {
 const initialState = {
   isFetching: false,
   error: false,
-  searchResults: [],
   currentPage: 1,
   allSearchResults: [],
   query: 'coffee',
@@ -16,14 +15,13 @@ const initialState = {
 
 const searchImageReducer = (state = initialState, action) => {
   let appendedResults = state.allSearchResults;
-  let appendedProfileSearchResult = state.allSearchResults;
+  let appendedProfileSearchResult = state.profileSearchResult;
   switch (action.type) {
     case GET_SEARCH_RESULT:
       return {
         ...state,
         isFetching: true,
-        error: false,
-        searchResults: []
+        error: false
       };
     case GET_SEARCH_RESULT_SUCCESS:
       if (state.allSearchResults.length > 0 && action.query === state.query) {
@@ -36,13 +34,12 @@ const searchImageReducer = (state = initialState, action) => {
         isFetching: false,
         error: false,
         allSearchResults: appendedResults,
-        searchResults: [],
         currentPage: action.data.nextPage,
         query: action.query
       };
     case GET_PROFILE_RESULT_SUCCESS:
-      if (state.profileSearchResult.length > 0
-        && action.username === state.profileSearchResult[0].user.username) {
+      if (state.profileSearchResult.length > 0 && state.allSearchResults
+        && action.username === state.username) {
         Array.prototype.push.apply(appendedProfileSearchResult, action.data);
       } else {
         appendedProfileSearchResult = action.data;
@@ -52,7 +49,6 @@ const searchImageReducer = (state = initialState, action) => {
         isFetching: false,
         error: false,
         profileSearchResult: appendedProfileSearchResult,
-        searchResults: [],
         currentPage: action.data.nextPage,
         username: action.username
       };
