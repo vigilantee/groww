@@ -29,6 +29,7 @@ const searchImageReducer = (state = initialState, action) => {
       } else {
         appendedResults = action.data;
       }
+      console.log(appendedResults);
       return {
         ...state,
         isFetching: false,

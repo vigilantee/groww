@@ -3,7 +3,8 @@ import {
   FlatList,
   Image,
   View,
-  Text
+  Text,
+  TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -18,19 +19,13 @@ class ImageDetails extends Component {
       page: 1,
     };
     const { page } = this.state;
-    const { getProfileImages, navigation } = this.props;
-    const { state } = navigation;
-    const { params } = state;
-    const { username } = params;
+    const { getProfileImages, username } = this.props;
     getProfileImages(username, page);
   }
 
   onEndReached = () => {
     const { page } = this.state;
-    const { getProfileImages, navigation } = this.props;
-    const { state } = navigation;
-    const { params } = state;
-    const { username } = params;
+    const { getProfileImages, username } = this.props;
     this.setState({
       page: page + 1
     }, () => {
@@ -53,9 +48,10 @@ class ImageDetails extends Component {
   }
 
   render() {
-    const { searchImage } = this.props;
+    const { searchImage, navigate } = this.props;
     return (
       <View style={styles.container}>
+        <TouchableOpacity onPress={navigate}><Text>Back</Text></TouchableOpacity>
         {searchImage[0] && (
           <View style={styles.header}>
             <Text style={styles.headerText}>{searchImage[0].user.name}</Text>
