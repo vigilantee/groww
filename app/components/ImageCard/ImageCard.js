@@ -57,7 +57,7 @@ class Card extends Component {
 
   handlePress = (i) => {
     const { searchImage, navigate } = this.props;
-    navigate('Profile', searchImage[i].user.username);
+    navigate(searchImage[i].user.username);
   }
 
   renderImage = (item, index) => {

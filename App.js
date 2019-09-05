@@ -40,7 +40,7 @@ class App extends Component {
     const { page, username } = this.state;
     const { setPage } = this;
     return (
-      (page === 'imagecard') ? <ImageCard navigate={() => setPage('Profile')} /> : <ImageDetails navigate={() => setPage('imagecard')} username={username} />
+      (page === 'imagecard') ? <ImageCard navigate={(user) => setPage('Profile', user)} /> : <ImageDetails navigate={() => setPage('imagecard')} username={username} />
     );
   }
 }
